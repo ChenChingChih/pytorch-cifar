@@ -33,13 +33,19 @@ transform_train = transforms.Compose([
     transforms.RandomCrop(32, padding=4),
     transforms.RandomHorizontalFlip(),
     transforms.ToTensor(),
-    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+    transforms.Normalize((0.4914, 0.4824, 0.4467), (0.2471, 0.2435, 0.2616)), #調整RGB的MEAN和Standard deviation
 ])
 
 transform_test = transforms.Compose([
     transforms.ToTensor(),
-    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+    transforms.Normalize((0.4914, 0.4824, 0.4467), (0.2471, 0.2435, 0.2616)), #調整RGB的MEAN和Standard deviation
 ])
+
+#用torchversion.transform去做data augumentation parameters
+#translation  是用torchvision.transforms.RandomRotation嗎?但要如何pad 4 zeros in each side and random cropping back to 32*32 size呢?
+
+#horizontal flipping
+hori_flip=torchvision.transforms.RandomVerticalFlip(p=0.5)
 
 trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform_train)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=128, shuffle=True, num_workers=2) #batch一次看幾張相片
@@ -77,7 +83,7 @@ if args.resume:
     start_epoch = checkpoint['epoch']
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
+optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=0.0001)
 
 #learning rate schedualing
 def adjust_learning_rate(optimizer,epoch):

@@ -49,7 +49,7 @@ class ResNet(nn.Module):
         super(ResNet, self).__init__()
         self.in_planes = 64 #1_此處要和2,3的一起修改!
 
-        self.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False) #64為output channel
+        self.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False) #64為output channel, padding補0
         self.bn1 = nn.BatchNorm2d(64) #2_此處要和1一起修改!
         self.layer1 = self._make_layer(block, 64, num_blocks[0], stride=1) #3_此處要和1的一起修改!
         self.layer2 = self._make_layer(block, 128, num_blocks[1], stride=2) #4_此處要和3成倍數關係!
