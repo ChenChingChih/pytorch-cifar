@@ -1,4 +1,5 @@
-'''Train CIFAR10 with PyTorch.'''
+﻿'''Train CIFAR10 with PyTorch.'''
+-*- coding:UTF-8 -*-
 from __future__ import print_function
 
 import torch
@@ -13,7 +14,7 @@ import torchvision.transforms as transforms
 import os
 import argparse
 
-from models import *
+from models import * #把所有在model裡的東西都import
 from utils import progress_bar
 
 
@@ -24,7 +25,7 @@ args = parser.parse_args()
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 best_acc = 0  # best test accuracy
-start_epoch = 0  # start from epoch 0 or last checkpoint epoch
+start_epoch = 0  # start from epoch 0 or last checkpoint epoch， ???epoch表示所有的動作進行幾個循環~???
 
 # Data
 print('==> Preparing data..')
@@ -41,7 +42,7 @@ transform_test = transforms.Compose([
 ])
 
 trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform_train)
-trainloader = torch.utils.data.DataLoader(trainset, batch_size=128, shuffle=True, num_workers=2)
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=128, shuffle=True, num_workers=2) #batch一次看幾張相片
 
 testset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform_test)
 testloader = torch.utils.data.DataLoader(testset, batch_size=100, shuffle=False, num_workers=2)
@@ -78,6 +79,17 @@ if args.resume:
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
 
+#learning rate schedualing
+def adjust_learning_rate(optimizer,epoch):
+    if epoch<10:
+        lr=0.01
+    elif epoch<15:
+        lr=0.001
+    else:
+        lr=0.0001
+    for param_group in optimizer.param_groups:
+        param_group['li']=lr
+        
 # Training
 def train(epoch):
     print('\nEpoch: %d' % epoch)

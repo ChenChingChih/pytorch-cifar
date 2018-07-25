@@ -7,6 +7,7 @@ Reference:
 [1] Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun
     Deep Residual Learning for Image Recognition. arXiv:1512.03385
 '''
+-*- coding:UTF-8 -*-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
