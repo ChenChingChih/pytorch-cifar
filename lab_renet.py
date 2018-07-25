@@ -46,15 +46,15 @@ class BasicBlock(nn.Module):
 class ResNet(nn.Module):
     def __init__(self, block, num_blocks, num_classes=10):
         super(ResNet, self).__init__()
-        self.in_planes = 64
+        self.in_planes = 64 #1_此處要和2,3的一起修改!
 
         self.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False) #64為output channel
-        self.bn1 = nn.BatchNorm2d(64)
-        self.layer1 = self._make_layer(block, 64, num_blocks[0], stride=1)
-        self.layer2 = self._make_layer(block, 128, num_blocks[1], stride=2)
-        self.layer3 = self._make_layer(block, 256, num_blocks[2], stride=2)
+        self.bn1 = nn.BatchNorm2d(64) #2_此處要和1一起修改!
+        self.layer1 = self._make_layer(block, 64, num_blocks[0], stride=1) #3_此處要和1的一起修改!
+        self.layer2 = self._make_layer(block, 128, num_blocks[1], stride=2) #4_此處要和3成倍數關係!
+        self.layer3 = self._make_layer(block, 256, num_blocks[2], stride=2) #5_此處要和4成倍數關係!
         # self.layer4 = self._make_layer(block, 512, num_blocks[3], stride=2) 因為只有RGB，所以只會用到三個
-        self.linear = nn.Linear(512*block.expansion, num_classes)
+        self.linear = nn.Linear(512*block.expansion, num_classes) #6_此處要和5成4倍數關係!
 
     def _make_layer(self, block, planes, num_blocks, stride):
         strides = [stride] + [1]*(num_blocks-1)
@@ -79,21 +79,15 @@ class ResNet(nn.Module):
 #Chunk 5
     
 #Chunk 1
-def ResNet18():  
-    return ResNet(BasicBlock, [2,2,2]) #因為只有RGB，所以只會用到三個
+def ResNet20():  
+    return ResNet(BasicBlock, [3,3,3]) #因為只有RGB，所以只會用到三個，並調成number blocks為[3,3,3]
 #Chunk 1/
 
-def ResNet34():
-    return ResNet(BasicBlock, [3,4,6,3])
+def ResNet56():
+    return ResNet(BasicBlock, [9,9,9]) #因為只有RGB，所以只會用到三個，並調成number blocks為[9,9,9]
 
-def ResNet50():
-    return ResNet(Bottleneck, [3,4,6,3])
-
-def ResNet101():
-    return ResNet(Bottleneck, [3,4,23,3])
-
-def ResNet152():
-    return ResNet(Bottleneck, [3,8,36,3])
+def ResNet110():
+    return ResNet(BasicBlock, [18,18,18]) #因為只有RGB，所以只會用到三個，並調成number blocks為[18,18,18]
 
 
 def test():
