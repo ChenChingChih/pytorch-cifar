@@ -43,7 +43,7 @@ transform_test = transforms.Compose([
 
 #用torchversion.transform去做data augumentation parameters
 #translation  是用torchvision.transforms.RandomRotation嗎?但要如何pad 4 zeros in each side and random cropping back to 32*32 size呢?
-
+translation=torchvision.transforms.RandomRotation(transforms.Pad(padding=4, fill=0), expand=False)
 #horizontal flipping
 hori_flip=torchvision.transforms.RandomVerticalFlip(p=0.5)
 
