@@ -30,8 +30,8 @@ start_epoch = 0  # start from epoch 0 or last checkpoint epoch， ???epoch表示
 # Data
 print('==> Preparing data..')
 transform_train = transforms.Compose([
-    transforms.RandomCrop(32, padding=4),
-    transforms.RandomHorizontalFlip(),
+    transforms.RandomCrop(32, padding=4), #pad 4 zeros in each side and random cropping back to 32*32 size
+    transforms.RandomHorizontalFlip(0.5), #horizontal flipping with probability=0.5
     transforms.ToTensor(),
     transforms.Normalize((0.4914, 0.4824, 0.4467), (0.2471, 0.2435, 0.2616)), #調整RGB的MEAN和Standard deviation
 ])
@@ -43,15 +43,15 @@ transform_test = transforms.Compose([
 
 #用torchversion.transform去做data augumentation parameters
 #translation  是用torchvision.transforms.RandomRotation嗎?但要如何pad 4 zeros in each side and random cropping back to 32*32 size呢?
-translation=torchvision.transforms.RandomRotation(transforms.Pad(padding=4, fill=0), expand=False)
+#translation=torchvision.transforms.RandomRotation(transforms.Pad(padding=4, fill=0), expand=False)
 #horizontal flipping
-hori_flip=torchvision.transforms.RandomVerticalFlip(p=0.5)
+#hori_flip=torchvision.transforms.RandomVerticalFlip(p=0.5)
 
 trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform_train)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=128, shuffle=True, num_workers=2) #batch一次看幾張相片
 
 testset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform_test)
-testloader = torch.utils.data.DataLoader(testset, batch_size=100, shuffle=False, num_workers=2)
+testloader = torch.utils.data.DataLoader(testset, batch_size=128, shuffle=False, num_workers=2) #batchsize調為128
 
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
@@ -83,10 +83,10 @@ if args.resume:
     start_epoch = checkpoint['epoch']
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=0.0001)
+optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=0.0001) #調整weight decade, momentum和gradient有關
 
 #learning rate schedualing
-def adjust_learning_rate(optimizer,epoch):
+def adjust_learning_rate(optimizer, epoch):
     if epoch<10:
         lr=0.01
     elif epoch<15:
@@ -153,8 +153,14 @@ def test(epoch):
         torch.save(state, './checkpoint/ckpt.t7')
         best_acc = acc
 
-
+#run and save model
 for epoch in range(start_epoch, start_epoch+200):
     train(epoch)
     test(epoch)
-# try to use matplotlib tp plot loss as a function of epoch number during training 
+    savefilename = 'ResNet_'+str(epoch)+'.tar'
+    torch.save({
+            'epoch': epoch,
+            'state_dict': model.state_dict(),
+        }, savefilename)
+    
+# try to use matplotlib to plot loss as a function of epoch number during training 
