@@ -1,5 +1,5 @@
-'''Train CIFAR10 with PyTorch.'''
-# -*- coding:UTF-8 -*-
+﻿'''Train CIFAR10 with PyTorch.'''
+ -*- coding:UTF-8 -*-
 from __future__ import print_function
 
 import torch
@@ -58,7 +58,7 @@ classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship'
 # Model
 print('==> Building model..')
 # net = VGG('VGG19')
-net = ResNet18()
+net = ResNet20()#改成20
 # net = PreActResNet18()
 # net = GoogLeNet()
 # net = DenseNet121()

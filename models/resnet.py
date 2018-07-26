@@ -1,4 +1,4 @@
-# -*- coding: cp950 -*-
+ï»¿ -*- coding: cp950 -*-
 Python 2.7.8 (default, Jun 30 2014, 16:03:49) [MSC v.1500 32 bit (Intel)] on win32
 Type "copyright", "credits" or "license()" for more information.
 >>> '''ResNet in PyTorch.
@@ -11,88 +11,88 @@ Reference:
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-# tip µ{¦¡­n¥Ñ«á©¹«e¬İ!¶¶µÛ¾÷¾¹«ä¦Òªº¨BÆJ¥h¡A¥ı¤F¸Ñ¤j¬[ºc(¨ç¼Æªº¥Øªº)«á¦A¶i¨ì¨ç¼Æ¤º³¡ªº²Ó¸`
+# tip ç¨‹å¼è¦ç”±å¾Œå¾€å‰çœ‹!é †è‘—æ©Ÿå™¨æ€è€ƒçš„æ­¥é©Ÿå»ï¼Œå…ˆäº†è§£å¤§æ¶æ§‹(å‡½æ•¸çš„ç›®çš„)å¾Œå†é€²åˆ°å‡½æ•¸å…§éƒ¨çš„ç´°ç¯€
 
-# Chunk 3 ©w¸qBasicBlock
+# Chunk 3 å®šç¾©BasicBlock
 class BasicBlock(nn.Module):
-    expansion = 1 # expansion·N«ä¬O¤°»ò?¬O¦bBottleneck®É¤~»İ­n½Õ¾ã
+    expansion = 1 # expansionæ„æ€æ˜¯ä»€éº¼?æ˜¯åœ¨Bottleneckæ™‚æ‰éœ€è¦èª¿æ•´
 
-    def __init__(self, in_planes, planes, stride=1): #in_plane¬°input channel
+    def __init__(self, in_planes, planes, stride=1): #in_planeç‚ºinput channel
         super(BasicBlock, self).__init__()
-        self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False) #©w¸qConv1->in_planes´N¬Oinput channel¥Nªí©ñ¤Jªº·Ó¤ù±i¼Æ¡Aplanes´N¬Ooutput channel¥Nªí¿é¥Xªº·Ó¤ù±i¼Æ
-        self.bn1 = nn.BatchNorm2d(planes) # ©w¸qBatch1
-        self.conv2 = nn.Conv2d(planes, planes, kernel_size=3, stride=1, padding=1, bias=False) #©w¸qConv2
-        self.bn2 = nn.BatchNorm2d(planes) # ©w¸qBatch2
+        self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False) #å®šç¾©Conv1->in_planeså°±æ˜¯input channelä»£è¡¨æ”¾å…¥çš„ç…§ç‰‡å¼µæ•¸ï¼Œplaneså°±æ˜¯output channelä»£è¡¨è¼¸å‡ºçš„ç…§ç‰‡å¼µæ•¸
+        self.bn1 = nn.BatchNorm2d(planes) # å®šç¾©Batch1
+        self.conv2 = nn.Conv2d(planes, planes, kernel_size=3, stride=1, padding=1, bias=False) #å®šç¾©Conv2
+        self.bn2 = nn.BatchNorm2d(planes) # å®šç¾©Batch2
 
-        self.shortcut = nn.Sequential() # ©w¸qshortcut??·Q°İnn.Sequential()³]©w¨ç¼Æªº¤è¦¡¡C¬O¤£¬O¦]¬°¤wÁY±Æ´Nªí¥Ü¤U­±ªºcode¦b´y­z³o¤@¦æ©O?
+        self.shortcut = nn.Sequential() # å®šç¾©shortcut??æƒ³å•nn.Sequential()è¨­å®šå‡½æ•¸çš„æ–¹å¼ã€‚æ˜¯ä¸æ˜¯å› ç‚ºå·²ç¸®æ’å°±è¡¨ç¤ºä¸‹é¢çš„codeåœ¨æè¿°é€™ä¸€è¡Œå‘¢?
         if stride != 1 or in_planes != self.expansion*planes:
             self.shortcut = nn.Sequential(
-                nn.Conv2d(in_planes, self.expansion*planes, kernel_size=1, stride=stride, bias=False), #self.expansion*planes(16¼hÅÜ¦¨32¼h)¡Astride=stride(32¼hÅÜ¦¨16¼h)
+                nn.Conv2d(in_planes, self.expansion*planes, kernel_size=1, stride=stride, bias=False), #self.expansion*planes(16å±¤è®Šæˆ32å±¤)ï¼Œstride=stride(32å±¤è®Šæˆ16å±¤)
                 nn.BatchNorm2d(self.expansion*planes)
             )
 # Chunk 3/
 
-# Chunk 4 forward¬O¹ê»Ú¤W¦³"°õ¦æ"ªº¦a¤è!
-    def forward(self, x): # ¨£basic blockªº¬yµ{¹Ï! ?«İ½T»{¨C­Ó¦ì¤l¥Nªí¤°»ò?
-        out = F.relu(self.bn1(self.conv1(x))) # ¤è®Ø¤@¡A¥ı°µconvolution¦A°µbatch³Ì«á°µReLu(§âself.conv1(x)ªº­È¥N¤Jself.bn1¤¤¡A¦A§âself.bn1ªº­È¥N¤JF.relu¤¤)
-        out = self.bn2(self.conv2(out)) # ¤è®Ø¤G¡A¤W­±ªº­È¥N¤J¨ç¦¡¤¤
+# Chunk 4 forwardæ˜¯å¯¦éš›ä¸Šæœ‰"åŸ·è¡Œ"çš„åœ°æ–¹!
+    def forward(self, x): # è¦‹basic blockçš„æµç¨‹åœ–! ?å¾…ç¢ºèªæ¯å€‹ä½å­ä»£è¡¨ä»€éº¼?
+        out = F.relu(self.bn1(self.conv1(x))) # æ–¹æ¡†ä¸€ï¼Œå…ˆåšconvolutionå†åšbatchæœ€å¾ŒåšReLu(æŠŠself.conv1(x)çš„å€¼ä»£å…¥self.bn1ä¸­ï¼Œå†æŠŠself.bn1çš„å€¼ä»£å…¥F.reluä¸­)
+        out = self.bn2(self.conv2(out)) # æ–¹æ¡†äºŒï¼Œä¸Šé¢çš„å€¼ä»£å…¥å‡½å¼ä¸­
         out += self.shortcut(x) # shortcut
-        out = F.relu(out) # out¦A°µReLu
+        out = F.relu(out) # outå†åšReLu
         return out
 # Chunk 4/
 
-# §R°£Bottleneck
+# åˆªé™¤Bottleneck
 
 # Chunk 2
 class ResNet(nn.Module):
     def __init__(self, block, num_blocks, num_classes=10):
         super(ResNet, self).__init__()
-        self.in_planes = 64 # 1_¦¹³B­n©M2,3ªº¤@°_­×§ï!
+        self.in_planes = 64 # 1_æ­¤è™•è¦å’Œ2,3çš„ä¸€èµ·ä¿®æ”¹!
 
-        self.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False) #64¬°output channel, padding¸É0
-        self.bn1 = nn.BatchNorm2d(64) # 2_¦¹³B­n©M1¤@°_­×§ï!
-        self.layer1 = self._make_layer(block, 64, num_blocks[0], stride=1) # 3_¦¹³B­n©M1ªº¤@°_­×§ï!
-        self.layer2 = self._make_layer(block, 128, num_blocks[1], stride=2) # 4_¦¹³B­n©M3¦¨­¿¼ÆÃö«Y!
-        self.layer3 = self._make_layer(block, 256, num_blocks[2], stride=2) # 5_¦¹³B­n©M4¦¨­¿¼ÆÃö«Y!
-        # self.layer4 = self._make_layer(block, 512, num_blocks[3], stride=2) ¦]¬°¥u¦³RGB¡A©Ò¥H¥u·|¥Î¨ì¤T­Ó
-        self.linear = nn.Linear(512*block.expansion, num_classes) # 6_¦¹³B­n©M5¦¨4­¿¼ÆÃö«Y!
+        self.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False) #64ç‚ºoutput channel, paddingè£œ0
+        self.bn1 = nn.BatchNorm2d(64) # 2_æ­¤è™•è¦å’Œ1ä¸€èµ·ä¿®æ”¹!
+        self.layer1 = self._make_layer(block, 64, num_blocks[0], stride=1) # 3_æ­¤è™•è¦å’Œ1çš„ä¸€èµ·ä¿®æ”¹!
+        self.layer2 = self._make_layer(block, 128, num_blocks[1], stride=2) # 4_æ­¤è™•è¦å’Œ3æˆå€æ•¸é—œä¿‚!
+        self.layer3 = self._make_layer(block, 256, num_blocks[2], stride=2) # 5_æ­¤è™•è¦å’Œ4æˆå€æ•¸é—œä¿‚!
+        # self.layer4 = self._make_layer(block, 512, num_blocks[3], stride=2) å› ç‚ºåªæœ‰RGBï¼Œæ‰€ä»¥åªæœƒç”¨åˆ°ä¸‰å€‹
+        self.linear = nn.Linear(512*block.expansion, num_classes) # 6_æ­¤è™•è¦å’Œ5æˆ4å€æ•¸é—œä¿‚!
 
     def _make_layer(self, block, planes, num_blocks, stride):
         strides = [stride] + [1]*(num_blocks-1)
         layers = []
-        for stride in strides: # ¦bstrides¤¤©â¥Xªºstride­n¶i¦æ¤U¦Cªº°Ê§@
+        for stride in strides: # åœ¨stridesä¸­æŠ½å‡ºçš„strideè¦é€²è¡Œä¸‹åˆ—çš„å‹•ä½œ
             layers.append(block(self.in_planes, planes, stride))
             self.in_planes = planes * block.expansion
         return nn.Sequential(*layers)
 # Chunk 2/
 
-# Chunk 5 forward¬O¹ê»Ú¤W¦³"°õ¦æ"ªº¦a¤è!
+# Chunk 5 forwardæ˜¯å¯¦éš›ä¸Šæœ‰"åŸ·è¡Œ"çš„åœ°æ–¹!
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
         out = self.layer1(out)
         out = self.layer2(out)
         out = self.layer3(out)
-        # out = self.layer4(out) ¦]¬°¥u¦³RGB¡A©Ò¥H¥u·|¥Î¨ì¤T­Ó
-        out = F.avg_pool2d(out, 8) # §ï¦¨8¡Aoutput map size¥Ñ64*8*8ÅÜ¦¨64*1*1 
-        out = out.view(out.size(0), -1) # ¥Ñ64*1*1ÅÜ¦¨64
-        out = self.linear(out) # ¥Ñ64*1*1ÅÜ¦¨10
-        return out # ³Ì²×µ²ªG!
+        # out = self.layer4(out) å› ç‚ºåªæœ‰RGBï¼Œæ‰€ä»¥åªæœƒç”¨åˆ°ä¸‰å€‹
+        out = F.avg_pool2d(out, 8) # æ”¹æˆ8ï¼Œoutput map sizeç”±64*8*8è®Šæˆ64*1*1 
+        out = out.view(out.size(0), -1) # ç”±64*1*1è®Šæˆ64
+        out = self.linear(out) # ç”±64*1*1è®Šæˆ10
+        return out # æœ€çµ‚çµæœ!
 # Chunk 5
     
 # Chunk 1
 def ResNet20():  
-    return ResNet(BasicBlock, [3,3,3]) # ¦]¬°¥u¦³RGB¡A©Ò¥H¥u·|¥Î¨ì¤T­Ó¡A¨Ã½Õ¦¨number blocks¬°[3,3,3]
+    return ResNet(BasicBlock, [3,3,3]) # å› ç‚ºåªæœ‰RGBï¼Œæ‰€ä»¥åªæœƒç”¨åˆ°ä¸‰å€‹ï¼Œä¸¦èª¿æˆnumber blocksç‚º[3,3,3]
 #Chunk 1/
 
 def ResNet56():
-    return ResNet(BasicBlock, [9,9,9]) # ¦]¬°¥u¦³RGB¡A©Ò¥H¥u·|¥Î¨ì¤T­Ó¡A¨Ã½Õ¦¨number blocks¬°[9,9,9]
+    return ResNet(BasicBlock, [9,9,9]) # å› ç‚ºåªæœ‰RGBï¼Œæ‰€ä»¥åªæœƒç”¨åˆ°ä¸‰å€‹ï¼Œä¸¦èª¿æˆnumber blocksç‚º[9,9,9]
 
 def ResNet110():
-    return ResNet(BasicBlock, [18,18,18]) # ¦]¬°¥u¦³RGB¡A©Ò¥H¥u·|¥Î¨ì¤T­Ó¡A¨Ã½Õ¦¨number blocks¬°[18,18,18]
+    return ResNet(BasicBlock, [18,18,18]) # å› ç‚ºåªæœ‰RGBï¼Œæ‰€ä»¥åªæœƒç”¨åˆ°ä¸‰å€‹ï¼Œä¸¦èª¿æˆnumber blocksç‚º[18,18,18]
 
 
 def test():
-    net = ResNet18()
+    net = ResNet20()
     y = net(torch.randn(1,3,32,32))
     print(y.size())
 
