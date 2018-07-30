@@ -51,7 +51,7 @@ classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship'
 # Model
 print('==> Building model..')
 # net = VGG('VGG19')
-net = ResNet18()
+net = ResNet20()
 # net = PreActResNet18()
 # net = GoogLeNet()
 # net = DenseNet121()
@@ -150,8 +150,4 @@ def test(epoch):
 for epoch in range(start_epoch, start_epoch+200):
     train(epoch)
     test(epoch)
-    savefilename = 'ResNet_'+str(epoch)+'.tar'
-    torch.save({
-            'epoch': epoch,
-            'state_dict': model.state_dict(),
-        }, savefilename)
+
