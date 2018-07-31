@@ -17,10 +17,14 @@ from models import *
 from utils import progress_bar
 
 
+import matplotlib.pyplot as plt
+
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
+# ArgumentParser(prog=None, usage=None, description=None, epilog=None)
 parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
 parser.add_argument('--resume', '-r', action='store_true', help='resume from checkpoint')
 args = parser.parse_args()
+# Convert argument strings to objects and assign them as attributes of the namespace. Return the populated namespace.
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 best_acc = 0  # best test accuracy
@@ -76,7 +80,10 @@ if args.resume:
     start_epoch = checkpoint['epoch']
 
 criterion = nn.CrossEntropyLoss()
+# the method we choose
 optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=0.0001)
+# Implements stochastic gradient descent (optionally with momentum)
+# torch.optim.SGD(params, lr=<object object>, momentum=0, dampening=0, weight_decay=0, nesterov=False)[s
 
 #learning rate schedualing
 def adjust_learning_rate(optimizer, epoch):
@@ -151,3 +158,19 @@ for epoch in range(start_epoch, start_epoch+200):
     train(epoch)
     test(epoch)
 
+#Graphing
+def plt_dynamic(x, y, ax, colors=['b']):
+    for color in colors:
+        ax.plot(x, y, color)
+    fig.canvas.draw()
+fig,ax = plt.subplots(1,1)    
+ax.set_xlabel('Epoch') ; ax.set_ylabel('Loss')
+ax.set_xlim(0,) ; ax.set_ylim(0,1)
+xs, ys = [], []
+for epoch in range(start_epoch, start_epoch+200):
+    x=epoch
+    y=%.3f(train_loss/(batch_idx+1)
+    xs.append(x)
+    ys.append(y)
+plt_dynamic(xs, ys, ax)
+plt.show()
