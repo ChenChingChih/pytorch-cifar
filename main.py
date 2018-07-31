@@ -169,7 +169,7 @@ ax.set_xlim(0,) ; ax.set_ylim(0,1)
 xs, ys = [], []
 for epoch in range(start_epoch, start_epoch+200):
     x=epoch
-    y=%.3f(train_loss/(batch_idx+1)
+    y=%.3f(train_loss/(batch_idx+1))
     xs.append(x)
     ys.append(y)
 plt_dynamic(xs, ys, ax)
