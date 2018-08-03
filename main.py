@@ -18,6 +18,9 @@ from utils import progress_bar
 
 
 import matplotlib.pyplot as plt
+#graphing
+import pickle
+#save the list
 
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 # ArgumentParser(prog=None, usage=None, description=None, epilog=None)
@@ -119,6 +122,9 @@ def train(epoch):
         progress_bar(batch_idx, len(trainloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
             % (train_loss/(batch_idx+1), 100.*correct/total, correct, total))
 
+    return epoch, train_loss/(batch_idx+1)
+    #return things in function(progress_bar)
+
 def test(epoch):
     global best_acc
     net.eval()
@@ -154,23 +160,13 @@ def test(epoch):
         best_acc = acc
 
 
-for epoch in range(start_epoch, start_epoch+200):
+for epoch in range(start_epoch, start_epoch+2):
     train(epoch)
     test(epoch)
-
-#Graphing
-def plt_dynamic(x, y, ax, colors=['b']):
-    for color in colors:
-        ax.plot(x, y, color)
-    fig.canvas.draw()
-fig,ax = plt.subplots(1,1)    
-ax.set_xlabel('Epoch') ; ax.set_ylabel('Loss')
-ax.set_xlim(0,) ; ax.set_ylim(0,1)
-xs, ys = [], []
-for epoch in range(start_epoch, start_epoch+200):
-    x=epoch
-    y=%.3f(train_loss/(batch_idx+1))
-    xs.append(x)
-    ys.append(y)
-plt_dynamic(xs, ys, ax)
-plt.show()
+    x.append(epoch)
+    y.append(loss)
+    with open("./resnet/resnet1_test.txt", "wb") as fp:   #Pickling x
+    pickle.dump(x, fp)
+    with open("./resnet/resnet_test.txt", "wb") as fp:   #Pickling y
+    pickle.dump(y, fp)
+print(x,y)
