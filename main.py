@@ -58,7 +58,7 @@ classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship'
 # Model
 print('==> Building model..')
 # net = VGG('VGG19')
-net = ResNet20()
+net = ResNet110()
 # net = PreActResNet18()
 # net = GoogLeNet()
 # net = DenseNet121()
@@ -77,7 +77,7 @@ if args.resume:
     # Load checkpoint.
     print('==> Resuming from checkpoint..')
     assert os.path.isdir('checkpoint'), 'Error: no checkpoint directory found!'
-    checkpoint = torch.load('./checkpoint/ckpt.t7')
+    checkpoint = torch.load('./checkpoint/ckpt_resnet110.t7')
     net.load_state_dict(checkpoint['net'])
     best_acc = checkpoint['acc']
     start_epoch = checkpoint['epoch']
@@ -144,7 +144,9 @@ def test(epoch):
 
             progress_bar(batch_idx, len(testloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
                 % (test_loss/(batch_idx+1), 100.*correct/total, correct, total))
-
+    return epoch, 100.*correct/total
+    #return things in function(progress_bar)
+    
     # Save checkpoint.
     acc = 100.*correct/total
     if acc > best_acc:
@@ -156,17 +158,28 @@ def test(epoch):
         }
         if not os.path.isdir('checkpoint'):
             os.mkdir('checkpoint')
-        torch.save(state, './checkpoint/ckpt.t7')
+        torch.save(state, './checkpoint/ckpt_resnet110.t7')
         best_acc = acc
 
-
-for epoch in range(start_epoch, start_epoch+2):
-    train(epoch)
-    test(epoch)
+x = []
+y = []
+u = []
+v = []
+for epoch in range(start_epoch, start_epoch+250):
+    
+    epoch, loss = train(epoch)
     x.append(epoch)
     y.append(loss)
-    with open("./resnet/resnet1_test.txt", "wb") as fp:   #Pickling x
-    pickle.dump(x, fp)
-    with open("./resnet/resnet_test.txt", "wb") as fp:   #Pickling y
-    pickle.dump(y, fp)
+    with open("./resnet/resnet110_epoch.txt", "wb") as fp:   #Pickling x
+     pickle.dump(x, fp)
+    with open("./resnet/resnet110_loss.txt", "wb") as fp:   #Pickling y
+     pickle.dump(y, fp)
+    epoch, accuracy=test(epoch)
+    u.append(epoch)
+    v.append(accuracy)
+    with open("./resnet/resnet110_epoch1.txt", "wb") as fp:   #Pickling u
+     pickle.dump(u, fp)
+    with open("./resnet/resnet110_acc.txt", "wb") as fp:   #Pickling v
+     pickle.dump(v, fp)
 print(x,y)
+print(u,v)
