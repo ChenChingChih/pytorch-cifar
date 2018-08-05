@@ -41,6 +41,7 @@ transform_train = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.4914, 0.4824, 0.4467), (0.2471, 0.2435, 0.2616)),
 ])
+#  transforms.Normalize is about the RBG color
 
 transform_test = transforms.Compose([
     transforms.ToTensor(),
@@ -160,7 +161,7 @@ def test(epoch):
             os.mkdir('checkpoint')
         torch.save(state, './checkpoint/ckpt_resnet110.t7')
         best_acc = acc
-
+#use pickle function to save epoch, loss,and accurate rate.
 x = []
 y = []
 u = []

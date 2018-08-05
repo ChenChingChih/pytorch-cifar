@@ -10,7 +10,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
+# (3) the class of BasicBlock
 class BasicBlock(nn.Module):
     expansion = 1
 
@@ -27,7 +27,9 @@ class BasicBlock(nn.Module):
                 nn.Conv2d(in_planes, self.expansion*planes, kernel_size=1, stride=stride, bias=False),
                 nn.BatchNorm2d(self.expansion*planes)
             )
-
+        #to maintain or subtract the dimensions between different layers.
+            
+# (4) the place where the caculations work
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
         out = self.bn2(self.conv2(out))
@@ -37,15 +39,19 @@ class BasicBlock(nn.Module):
 
 
 
-
+# (2)the class of ResNet
 class ResNet(nn.Module):
     def __init__(self, block, num_blocks, num_classes=10):
         super(ResNet, self).__init__()
         self.in_planes = 16
+        #inplanes mean input channels/filters which capture different features of pictures 
 
         self.conv1 = nn.Conv2d(3, 16, kernel_size=3, stride=1, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(16)
+        #batch means how many pictures we put intothe modle simultaneously
         self.layer1 = self._make_layer(block, 16, num_blocks[0], stride=1)
+        #each layer contains few of Basicblocks, go to the class of BsicBlock
+        
         self.layer2 = self._make_layer(block, 32, num_blocks[1], stride=2)
         self.layer3 = self._make_layer(block, 64, num_blocks[2], stride=2)
         self.linear = nn.Linear(64*block.expansion, num_classes)
@@ -58,6 +64,7 @@ class ResNet(nn.Module):
             self.in_planes = planes * block.expansion
         return nn.Sequential(*layers)
 
+# (5) the place where the caculations work
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
         out = self.layer1(out)
@@ -75,9 +82,10 @@ def ResNet20():
 def ResNet56():
     return ResNet(BasicBlock, [9,9,9])
 
+# (1) computer will read it from main.py
 def ResNet110():
-    return ResNet(Bottleneck, [18,18,18])
-
+    return ResNet(BasicBlock, [18,18,18])
+# [18,18,18] means now many blocks in each layer [num_blocks[0],num_blocks[1],num_blocks[2]]
 
 def test():
     net = ResNet110()
