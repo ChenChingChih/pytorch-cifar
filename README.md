@@ -12,6 +12,14 @@ Cons:
 - No progress bar, sad :(
 - No built-in log.
 
+What you need to install before you run:
+-cudaCNN (you have to sign up to be a NVIDIA developer first)
+-PyTorch
+-Numpy
+
+How to run:
+~$ python3 main.py
+
 ## Accuracy
 | Model             | Acc.        |
 | ----------------- | ----------- |
