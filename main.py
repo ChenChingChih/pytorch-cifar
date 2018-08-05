@@ -166,7 +166,8 @@ x = []
 y = []
 u = []
 v = []
-for epoch in range(start_epoch, start_epoch+250):
+for epoch in range(start_epoch, start_epoch+5):
+    #how many epoch you want to train, the default I set is 4.
     
     epoch, loss = train(epoch)
     x.append(epoch)
