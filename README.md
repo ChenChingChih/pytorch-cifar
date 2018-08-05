@@ -12,15 +12,15 @@ Cons:
 - No progress bar, sad :(
 - No built-in log.
 
-##What you need to install before you run:
+## What you need to install before you run:
 -cudaCNN (you have to sign up to be a NVIDIA developer first)
 -PyTorch
 -Numpy
 
-##How to run:
+## How to run:
 ~$ python3 main.py
 
-##Some resourses about CNN
+## Some resourses about CNN
 
 -[卷积神经网络 CNN (Convolutional Neural Network)-- 莫烦](https://morvanzhou.github.io/tutorials/machine-learning/ML-intro/2-2-CNN/)
 
